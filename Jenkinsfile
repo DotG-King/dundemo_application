@@ -51,7 +51,7 @@ pipeline {
                 checkout([$class: 'GitSCM',
                           branches: [[name: env.GIT_BRANCH]],
                           doGenerateSubmoduleConfigurations: false,
-                          userRemoteConfigs: [[credentialsId: 'GITHUB_ACCESS_TOKEN', url: GITHUB_REPOSITORY]]
+                          userRemoteConfigs: [[credentialsId: 'dundemo_github_token', url: DUNDEMO_APPLICATION_REPOSITORY]]
                           ])
             }
 
@@ -143,7 +143,7 @@ pipeline {
                 footer: "'${env.JOB_NAME}'", 
                 link: env.BUILD_URL,
                 result: currentBuild.currentResult, 
-                webhookURL: "$DISCORD"
+                webhookURL: '$DISCORD'
             }
         }
         failure {
@@ -153,7 +153,7 @@ pipeline {
                 footer: "'${env.JOB_NAME}'", 
                 link: env.BUILD_URL,
                 result: currentBuild.currentResult, 
-                webhookURL: "$DISCORD"
+                webhookURL: '$DISCORD'
             }
         }
     }
