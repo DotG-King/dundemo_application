@@ -1,0 +1,21 @@
+spring:
+  config:
+    activate:
+      on-profile: local
+  application:
+    name: dundemo
+  data:
+    mongodb:
+      uri: mongodb://localhost:27017
+      authentication-database: admin
+      auto-index-creation: true
+      database: test
+
+---
+
+spring:
+  config:
+    activate:
+      on-profile: dev
+  application:
+    name: dundemo
