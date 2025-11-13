@@ -1,10 +1,9 @@
-package dev.example.dundemo.utils;
+package dev.example.dundemo.utils.response;
 
 import dev.example.dundemo.utils.model.CommonResult;
 import dev.example.dundemo.utils.model.ListResult;
 import dev.example.dundemo.utils.model.MapResult;
 import dev.example.dundemo.utils.model.SingleResult;
-import dev.example.dundemo.utils.response.CommonResponse;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
