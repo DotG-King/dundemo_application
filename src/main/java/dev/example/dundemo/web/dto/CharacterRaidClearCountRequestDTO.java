@@ -5,7 +5,8 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class CharacterInfoRequestDTO {
+public class CharacterRaidClearCountRequestDTO {
     private String serverName;
-    private String characterId;
+    private String characterName;
+
 }
