@@ -1,7 +1,7 @@
 package dev.example.dundemo.web.controller;
 
 import dev.example.dundemo.service.CharacterService;
-import dev.example.dundemo.utils.ResponseService;
+import dev.example.dundemo.utils.response.ResponseService;
 import dev.example.dundemo.utils.model.ListResult;
 import dev.example.dundemo.utils.model.SingleResult;
 import dev.example.dundemo.web.dto.*;
@@ -31,5 +31,17 @@ public class DnfCharacterController {
     public SingleResult<CharacterInfoResponseDTO> getCharacterInfo(@RequestBody CharacterInfoRequestDTO characterInfoRequestDTO) {
         CharacterInfoResponseDTO characterInfo = characterService.getCharacterInfo(characterInfoRequestDTO);
         return responseService.getSingleResult(characterInfo);
+    }
+
+    @PostMapping("/timeline")
+    public SingleResult<TimeLineResponseDTO> getCharacterRaidClearTimeLine(@RequestBody CharacterRaidClearCountRequestDTO characterRaidClearCountRequestDTO) {
+        TimeLineResponseDTO result = characterService.getCharacterRaidClearTimeLine(characterRaidClearCountRequestDTO);
+        return responseService.getSingleResult(result);
+    }
+
+    @PostMapping("/count")
+    public SingleResult<CharacterRaidClearCountResponseDTO> getCharacterRaidClearCount(@RequestBody CharacterRaidClearCountRequestDTO characterRaidClearCountRequestDTO) {
+        CharacterRaidClearCountResponseDTO result = characterService.getCharacterRaidClearCount(characterRaidClearCountRequestDTO);
+        return responseService.getSingleResult(result);
     }
 }
