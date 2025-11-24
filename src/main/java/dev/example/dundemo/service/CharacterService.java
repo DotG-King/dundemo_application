@@ -87,7 +87,6 @@ public class CharacterService {
 
                 // 처음 등록된 캐릭터는 레이드 횟수를 세팅
                 raidClearCountUtil.initRaidClearCount(targetCharacter);
-                characterRepository.saveCharacter(targetCharacter);
 
             } else if (searchResult.size() > 1) {
                 Map<String, String> characters = searchResult.stream().collect(Collectors.toMap(
@@ -102,8 +101,9 @@ public class CharacterService {
         } else {
             start = targetCharacter.getModifiedAt();
             raidClearCountUtil.refreshRaidClearCount(targetCharacter, start);
-            characterRepository.saveCharacter(targetCharacter);
         }
+
+        characterRepository.saveCharacter(targetCharacter);
 
         return CharacterRaidClearCountResponseDTO
                 .builder()

@@ -18,11 +18,13 @@ public class RaidClearCountUtil {
 
     private final LocalDateTime raidLaunchDay;
     private final NeopleApiClient neopleApiClient;
+    private final RefreshTimeCheckUtil refreshTimeCheckUtil;
 
-    public RaidClearCountUtil(NeopleApiClient neopleApiClient) {
+    public RaidClearCountUtil(NeopleApiClient neopleApiClient, RefreshTimeCheckUtil refreshTimeCheckUtil) {
         // 나벨 출시일 -91로 검색
         this.raidLaunchDay = LocalDateTime.of(2025, 4, 17, 0, 0, 0).minusDays(91);
         this.neopleApiClient = neopleApiClient;
+        this.refreshTimeCheckUtil = refreshTimeCheckUtil;
     }
 
     public void initRaidClearCount(Character targetCharacter) {
@@ -122,6 +124,11 @@ public class RaidClearCountUtil {
     private void refreshCharacterRaidClearCount(Character targetCharacter, LocalDateTime start, LocalDateTime end) {
         LocalDateTime lastModifiedTime = start;
 
+        // 30초 내로는 갱신 불가능 하도록 제한
+        if (!refreshTimeCheckUtil.canRefresh(lastModifiedTime)) {
+            return;
+        }
+
         do {
             String next = "";
             do {
@@ -162,6 +169,11 @@ public class RaidClearCountUtil {
 
     private void refreshCharacterAdvanceRaidClearCount(Character targetCharacter, LocalDateTime start, LocalDateTime end) {
         LocalDateTime lastModifiedTime = start;
+
+        // 30초 내로는 갱신 불가능 하도록 제한
+        if (!refreshTimeCheckUtil.canRefresh(lastModifiedTime)) {
+            return;
+        }
 
         do {
             String next = "";
