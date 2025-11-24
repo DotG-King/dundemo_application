@@ -41,7 +41,7 @@ public class CharacterService {
 
             if (searchResult.size() == 1) {
                 CharacterDTO targetCharacterDTO = searchResult.get(0);
-                CharacterInfoResponseDTO targetCharacterInfoDTO = neopleApiClient.getCharacterInfo(targetCharacterDTO.getServerId(), targetCharacterDTO.getCharacterId());
+                CharacterInfoDTO targetCharacterInfoDTO = neopleApiClient.getCharacterInfo(targetCharacterDTO.getServerId(), targetCharacterDTO.getCharacterId());
                 Character newCharacter = targetCharacterInfoDTO.toCharacterEntity();
                 characterRepository.saveCharacter(newCharacter);
                 targetCharacter = newCharacter;

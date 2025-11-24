@@ -4,7 +4,7 @@ import dev.example.dundemo.enums.NeopleApiUrl;
 import dev.example.dundemo.utils.ApiKeyProvider;
 import dev.example.dundemo.web.dto.*;
 import dev.example.dundemo.web.dto.Character.CharacterDTO;
-import dev.example.dundemo.web.dto.Character.CharacterInfoResponseDTO;
+import dev.example.dundemo.web.dto.Character.CharacterInfoDTO;
 import dev.example.dundemo.web.dto.timeline.TimeLineResponseDTO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.ParameterizedTypeReference;
@@ -53,14 +53,14 @@ public class NeopleApiClient {
                 .block();
     }
 
-    public CharacterInfoResponseDTO getCharacterInfo(String serverId, String characterId) {
+    public CharacterInfoDTO getCharacterInfo(String serverId, String characterId) {
         return webClient.get()
                 .uri(uriBuilder -> uriBuilder
                         .path(NeopleApiUrl.CHARACTER_INFO.uri)
                         .queryParam("apikey", apiKeyProvider.getApiKey())
                         .build(serverId, characterId))
                 .retrieve()
-                .bodyToMono(CharacterInfoResponseDTO.class)
+                .bodyToMono(CharacterInfoDTO.class)
                 .block();
     }
 
