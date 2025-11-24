@@ -1,6 +1,5 @@
-package dev.example.dundemo.web.dto;
+package dev.example.dundemo.web.dto.Character;
 
-import dev.example.dundemo.domain.Character;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;

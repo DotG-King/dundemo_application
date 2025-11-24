@@ -1,6 +1,5 @@
 package dev.example.dundemo.domain;
 
-import dev.example.dundemo.web.dto.CharacterInfoResponseDTO;
 import lombok.Builder;
 import lombok.Getter;
 import org.springframework.data.annotation.Id;

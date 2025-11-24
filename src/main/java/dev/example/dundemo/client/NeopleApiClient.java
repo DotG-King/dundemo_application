@@ -1,9 +1,11 @@
 package dev.example.dundemo.client;
 
 import dev.example.dundemo.enums.NeopleApiUrl;
-import dev.example.dundemo.enums.TimeLineCode;
 import dev.example.dundemo.utils.ApiKeyProvider;
 import dev.example.dundemo.web.dto.*;
+import dev.example.dundemo.web.dto.Character.CharacterDTO;
+import dev.example.dundemo.web.dto.Character.CharacterInfoResponseDTO;
+import dev.example.dundemo.web.dto.timeline.TimeLineResponseDTO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.stereotype.Component;

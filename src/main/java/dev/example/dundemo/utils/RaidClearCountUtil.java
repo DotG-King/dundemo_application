@@ -4,7 +4,7 @@ import dev.example.dundemo.client.NeopleApiClient;
 import dev.example.dundemo.domain.Character;
 import dev.example.dundemo.enums.RaidName;
 import dev.example.dundemo.enums.TimeLineCode;
-import dev.example.dundemo.web.dto.TimeLineResponseDTO;
+import dev.example.dundemo.web.dto.timeline.TimeLineResponseDTO;
 import dev.example.dundemo.web.dto.timeline.TimeLineRequestDTO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;

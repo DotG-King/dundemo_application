@@ -1,6 +1,5 @@
-package dev.example.dundemo.web.dto;
+package dev.example.dundemo.web.dto.timeline;
 
-import dev.example.dundemo.web.dto.timeline.TimeLineDTO;
 import lombok.Getter;
 import lombok.Setter;
 

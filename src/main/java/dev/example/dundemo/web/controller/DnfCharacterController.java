@@ -4,7 +4,8 @@ import dev.example.dundemo.service.CharacterService;
 import dev.example.dundemo.utils.response.ResponseService;
 import dev.example.dundemo.utils.model.ListResult;
 import dev.example.dundemo.utils.model.SingleResult;
-import dev.example.dundemo.web.dto.*;
+import dev.example.dundemo.web.dto.Character.*;
+import dev.example.dundemo.web.dto.timeline.TimeLineResponseDTO;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
