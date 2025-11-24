@@ -12,12 +12,12 @@ import java.util.List;
 
 @RequestMapping("/api/v1/character")
 @RestController
-public class DnfCharacterController {
+public class CharacterController {
 
     private final ResponseService responseService;
     private final CharacterService characterService;
 
-    public DnfCharacterController(ResponseService responseService, CharacterService characterService) {
+    public CharacterController(ResponseService responseService, CharacterService characterService) {
         this.responseService = responseService;
         this.characterService = characterService;
     }
