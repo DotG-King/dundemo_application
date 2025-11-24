@@ -5,13 +5,10 @@ import dev.example.dundemo.advice.exception.ManyCharacterFoundException;
 import dev.example.dundemo.client.NeopleApiClient;
 import dev.example.dundemo.domain.Adventure;
 import dev.example.dundemo.domain.Character;
-import dev.example.dundemo.enums.TimeLineCode;
 import dev.example.dundemo.repository.AdventureRepository;
 import dev.example.dundemo.repository.CharacterRepository;
 import dev.example.dundemo.utils.RaidClearCountUtil;
 import dev.example.dundemo.web.dto.Character.*;
-import dev.example.dundemo.web.dto.timeline.TimeLineRequestDTO;
-import dev.example.dundemo.web.dto.timeline.TimeLineResponseDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -33,35 +30,9 @@ public class CharacterService {
     private final CharacterRepository characterRepository;
     private final AdventureRepository adventureRepository;
 
-    public List<CharacterDTO> getCharacter(CharacterSearchRequestDTO requestDTO) {
-        return neopleApiClient.getCharacterId(requestDTO.getServerName(), requestDTO.getCharacterName()).getRows();
-    }
-
-    public CharacterInfoResponseDTO getCharacterInfo(CharacterInfoRequestDTO requestDTO) {
-        return neopleApiClient.getCharacterInfo(requestDTO.getServerName(), requestDTO.getCharacterId());
-    }
-
-    public TimeLineResponseDTO getCharacterRaidClearTimeLine(CharacterRaidClearCountRequestDTO requestDTO) {
-
-        TimeLineRequestDTO request = TimeLineRequestDTO.builder()
-                .serverId(requestDTO.getServerName())
-                .characterId(requestDTO.getCharacterName())
-                .start(LocalDateTime.now().minusDays(90))
-                .end(LocalDateTime.now())
-                .code(TimeLineCode.RAID.getCode())
-                .next("")
-                .build();
-
-        return neopleApiClient.getCharacterTimeLine(request.toMap());
-    }
-
     public CharacterRaidClearCountResponseDTO getCharacterRaidClearCount(CharacterRaidClearCountRequestDTO requestDTO) {
 
         // 처음에 도메인에서 캐릭터 검색후 있으면 그 항목의 마지막 수정시간 이후로 검색
-
-        LocalDateTime start = LocalDateTime.now().minusDays(90);
-        LocalDateTime end = LocalDateTime.now();
-
         Character targetCharacter = characterRepository.findCharacterByServerAndName(requestDTO.getServerName(), requestDTO.getCharacterName());
 
         // DB에서 검색된 캐릭터가 없을때 API에서 캐릭터 검색
@@ -100,7 +71,7 @@ public class CharacterService {
             }
         // DB에 캐릭터가 있을때는 캐릭터가 마지막으로 수정된 시간부터 클리어 횟수 카운트
         } else {
-            start = targetCharacter.getModifiedAt();
+            LocalDateTime start = targetCharacter.getModifiedAt();
             raidClearCountUtil.refreshRaidClearCount(targetCharacter, start);
         }
 

@@ -22,24 +22,6 @@ public class CharacterController {
         this.characterService = characterService;
     }
 
-    @PostMapping()
-    public ListResult<CharacterDTO> getCharacter(@RequestBody CharacterSearchRequestDTO characterSearchRequestDTO) {
-        List<CharacterDTO> character = characterService.getCharacter(characterSearchRequestDTO);
-        return responseService.getListResult(character);
-    }
-
-    @PostMapping("/info")
-    public SingleResult<CharacterInfoResponseDTO> getCharacterInfo(@RequestBody CharacterInfoRequestDTO characterInfoRequestDTO) {
-        CharacterInfoResponseDTO characterInfo = characterService.getCharacterInfo(characterInfoRequestDTO);
-        return responseService.getSingleResult(characterInfo);
-    }
-
-    @PostMapping("/timeline")
-    public SingleResult<TimeLineResponseDTO> getCharacterRaidClearTimeLine(@RequestBody CharacterRaidClearCountRequestDTO characterRaidClearCountRequestDTO) {
-        TimeLineResponseDTO result = characterService.getCharacterRaidClearTimeLine(characterRaidClearCountRequestDTO);
-        return responseService.getSingleResult(result);
-    }
-
     @PostMapping("/count")
     public SingleResult<CharacterRaidClearCountResponseDTO> getCharacterRaidClearCount(@RequestBody CharacterRaidClearCountRequestDTO characterRaidClearCountRequestDTO) {
         CharacterRaidClearCountResponseDTO result = characterService.getCharacterRaidClearCount(characterRaidClearCountRequestDTO);

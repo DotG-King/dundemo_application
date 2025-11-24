@@ -6,17 +6,17 @@ import lombok.Setter;
 @Getter
 @Setter
 public class TimeLineResponseDTO {
-    String serverId;
-    String characterId;
-    String characterName;
-    int level;
-    String jobId;
-    String jobGrowId;
-    String jobName;
-    String jobGrowName;
-    int fame;
-    String adventureName;
-    String guildId;
-    String guildName;
-    TimeLineDTO timeline;
+    private String serverId;
+    private String characterId;
+    private String characterName;
+    private int level;
+    private String jobId;
+    private String jobGrowId;
+    private String jobName;
+    private String jobGrowName;
+    private int fame;
+    private String adventureName;
+    private String guildId;
+    private String guildName;
+    private TimeLineDTO timeline;
 }
