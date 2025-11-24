@@ -29,18 +29,19 @@ public class RaidClearCountUtil {
 
         LocalDateTime end = LocalDateTime.now();
         LocalDateTime start = end.minusDays(90);
-        calculateRaidClearCount(targetCharacter, start, end);
-        calculateAdvanceRaidClearCount(targetCharacter, start, end);
+        initCharacterRaidClearCount(targetCharacter, start, end);
+        initCharacterAdvanceRaidClearCount(targetCharacter, start, end);
     }
 
-    public void refreshRaidClearCount(Character targetCharacter, LocalDateTime start) {
+    public void refreshRaidClearCount(Character targetCharacter, LocalDateTime lastModifiedTime) {
 
+        // 갱신할때 너무 자주 갱신되지 않도록 하는 코드 필요할듯
         LocalDateTime end = LocalDateTime.now();
-        calculateRaidClearCount(targetCharacter, start, end);
-        calculateAdvanceRaidClearCount(targetCharacter, start, end);
+        refreshCharacterRaidClearCount(targetCharacter, lastModifiedTime, end);
+        refreshCharacterAdvanceRaidClearCount(targetCharacter, lastModifiedTime, end);
     }
 
-    private void calculateRaidClearCount(Character targetCharacter, LocalDateTime start, LocalDateTime end) {
+    private void initCharacterRaidClearCount(Character targetCharacter, LocalDateTime start, LocalDateTime end) {
         do {
             String next = "";
             do {
@@ -79,7 +80,7 @@ public class RaidClearCountUtil {
         } while (!start.isBefore(raidLaunchDay));
     }
 
-    private void calculateAdvanceRaidClearCount(Character targetCharacter, LocalDateTime start, LocalDateTime end) {
+    private void initCharacterAdvanceRaidClearCount(Character targetCharacter, LocalDateTime start, LocalDateTime end) {
         do {
             String next = "";
             do {
@@ -116,5 +117,87 @@ public class RaidClearCountUtil {
             start = end.minusDays(90);
 
         } while (!start.isBefore(raidLaunchDay));
+    }
+
+    private void refreshCharacterRaidClearCount(Character targetCharacter, LocalDateTime start, LocalDateTime end) {
+        LocalDateTime lastModifiedTime = start;
+
+        do {
+            String next = "";
+            do {
+                TimeLineRequestDTO raidRequest = TimeLineRequestDTO.builder()
+                        .serverId(targetCharacter.getServerId())
+                        .characterId(targetCharacter.getCharacterId())
+                        .start(start)
+                        .end(end)
+                        .code(TimeLineCode.RAID.getCode())
+                        .next(next)
+                        .build();
+
+                TimeLineResponseDTO raidTimeLine = neopleApiClient.getCharacterTimeLine(raidRequest.toMap());
+
+                if (raidTimeLine == null || raidTimeLine.getTimeline() == null || raidTimeLine.getTimeline().getRows() == null) {
+                    break;
+                }
+
+                raidTimeLine.getTimeline().getRows().forEach(
+                        row -> {
+                            if (row.getData() != null) {
+                                if (RaidName.NABEL.matches(row.getData().getRaidName(), row.getData().getModeName())) {
+                                    targetCharacter.increaseNabelClearCount();
+                                } else if (RaidName.INAE.matches(row.getData().getRaidName(), row.getData().getModeName())){
+                                    targetCharacter.increaseInaeClearCount();
+                                }
+                            }
+                        });
+                // next가 null이면 ""로 변환 값이 있으면 그대로
+                next = Optional.ofNullable(raidTimeLine.getTimeline().getNext()).orElse("");
+            } while (!next.isEmpty());
+
+            end = start;
+            start = end.minusDays(90);
+
+        } while (!start.isBefore(lastModifiedTime));
+    }
+
+    private void refreshCharacterAdvanceRaidClearCount(Character targetCharacter, LocalDateTime start, LocalDateTime end) {
+        LocalDateTime lastModifiedTime = start;
+
+        do {
+            String next = "";
+            do {
+                TimeLineRequestDTO raidRequest = TimeLineRequestDTO.builder()
+                        .serverId(targetCharacter.getServerId())
+                        .characterId(targetCharacter.getCharacterId())
+                        .start(start)
+                        .end(end)
+                        .code(TimeLineCode.RAID.getCode())
+                        .next(next)
+                        .build();
+
+                TimeLineResponseDTO raidTimeLine = neopleApiClient.getCharacterTimeLine(raidRequest.toMap());
+
+                if (raidTimeLine == null || raidTimeLine.getTimeline() == null || raidTimeLine.getTimeline().getRows() == null) {
+                    break;
+                }
+
+                raidTimeLine.getTimeline().getRows().forEach(
+                        row -> {
+                            if (row.getData() != null) {
+                                if (RaidName.NABEL.matches(row.getData().getRaidName(), row.getData().getModeName())) {
+                                    targetCharacter.increaseNabelClearCount();
+                                } else if (RaidName.INAE.matches(row.getData().getRaidName(), row.getData().getModeName())){
+                                    targetCharacter.increaseInaeClearCount();
+                                }
+                            }
+                        });
+                // next가 null이면 ""로 변환 값이 있으면 그대로
+                next = Optional.ofNullable(raidTimeLine.getTimeline().getNext()).orElse("");
+            } while (!next.isEmpty());
+
+            end = start;
+            start = end.minusDays(90);
+
+        } while (!start.isBefore(lastModifiedTime));
     }
 }
