@@ -4,6 +4,8 @@ import dev.example.dundemo.domain.Character;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @RequiredArgsConstructor
 @Repository
 public class CharacterRepository {
@@ -16,6 +18,10 @@ public class CharacterRepository {
 
     public Character saveCharacter(Character character) {
         return characterDataRepository.save(character);
+    }
+
+    public List<Character> findCharactersByCharacterId(List<String> characterIds) {
+        return characterIds.stream().map(characterDataRepository::findCharacterByCharacterId).toList();
     }
 
 }

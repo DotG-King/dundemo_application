@@ -21,15 +21,14 @@ public class Adventure extends BaseTimeEntity {
     @Indexed
     private String adventureName;
 
-    private List<Character> character = new ArrayList<>();
+    private List<String> characters = new ArrayList<>();
 
     @Builder
     public Adventure(String adventureName) {
         this.adventureName = adventureName;
     }
 
-    public void addCharacter(Character character) {
-        this.character.add(character);
+    public void addCharacter(String characterId) {
+        this.characters.add(characterId);
     }
-
 }
