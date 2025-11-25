@@ -1,6 +1,7 @@
 package dev.example.dundemo.advice;
 
 import dev.example.dundemo.advice.exception.CharacterNotFoundException;
+import dev.example.dundemo.advice.exception.IllegalServerCodeException;
 import dev.example.dundemo.advice.exception.ManyCharacterFoundException;
 import dev.example.dundemo.enums.exception.ErrorCode;
 import dev.example.dundemo.utils.LoggingUtil;
@@ -33,5 +34,13 @@ public class CustomAdvice {
         LoggingUtil.loggingWarnWithMessage("여러 캐릭터가 검색되었습니다. : " + ex.getCharacters());
         return responseService.getFailResult(
                 ErrorCode.MANY_CHARACTER_FOUND.getCode(), ErrorCode.MANY_CHARACTER_FOUND.getDescription());
+    }
+
+    @ExceptionHandler(IllegalServerCodeException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    protected CommonResult illegalServerCodeException(HttpServletRequest request, IllegalServerCodeException ex) {
+        LoggingUtil.loggingWarn();
+        return responseService.getFailResult(
+                ErrorCode.ILLEGAL_SERVER_CODE.getCode(), ErrorCode.ILLEGAL_SERVER_CODE.getDescription());
     }
 }

@@ -1,7 +1,10 @@
 package dev.example.dundemo.enums;
 
+import dev.example.dundemo.advice.exception.IllegalServerCodeException;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+
+import java.util.Arrays;
 
 @AllArgsConstructor
 @Getter
@@ -17,4 +20,12 @@ public enum ServerName {
 
     private final String code;
     private final String description;
+
+    public static String getDescription(String code) {
+        return Arrays.stream(values())
+                .filter(server -> server.code.equals(code))
+                .findFirst()
+                .map(ServerName::getDescription)
+                .orElseThrow(IllegalServerCodeException::new);
+    }
 }
