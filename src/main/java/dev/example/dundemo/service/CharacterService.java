@@ -5,6 +5,7 @@ import dev.example.dundemo.advice.exception.ManyCharacterFoundException;
 import dev.example.dundemo.client.NeopleApiClient;
 import dev.example.dundemo.domain.Adventure;
 import dev.example.dundemo.domain.Character;
+import dev.example.dundemo.enums.ServerName;
 import dev.example.dundemo.repository.AdventureRepository;
 import dev.example.dundemo.repository.CharacterRepository;
 import dev.example.dundemo.utils.RaidClearCountUtil;
@@ -30,7 +31,7 @@ public class CharacterService {
     private final CharacterRepository characterRepository;
     private final AdventureRepository adventureRepository;
 
-    public CharacterRaidClearCountResponseDTO getCharacterRaidClearCount(CharacterRaidClearCountRequestDTO requestDTO) {
+    public CharacterCardDTO getCharacterRaidClearCount(CharacterRaidClearCountRequestDTO requestDTO) {
 
         // 처음에 도메인에서 캐릭터 검색후 있으면 그 항목의 마지막 수정시간 이후로 검색
         Character targetCharacter = characterRepository.findCharacterByServerAndName(requestDTO.getServerName(), requestDTO.getCharacterName());
@@ -47,19 +48,22 @@ public class CharacterService {
                 targetCharacter = newCharacter;
                 Adventure targetAdventure = adventureRepository.findAdventureByAdventureName(targetCharacterInfoDTO.getAdventureName());
 
-                // 해당 캐릭터가 속한 모험단이 없으면 모험단 생성
+                // 해당 캐릭터가 속한 모험단이 없으면 모험단 생성하고 캐릭터 추가
                 if (targetAdventure == null) {
                     Adventure newAdventure = targetCharacterInfoDTO.toAdventureEntity();
-                    newAdventure.addCharacter(newCharacter);
+                    newAdventure.addCharacter(newCharacter.getCharacterId());
                     adventureRepository.saveAdventure(newAdventure);
+                // 해당 캐릭터가 속한 모험단이 있으면 캐릭터만 추가
                 } else {
-                    targetAdventure.addCharacter(newCharacter);
+                    targetAdventure.addCharacter(newCharacter.getCharacterId());
                     adventureRepository.saveAdventure(targetAdventure);
                 }
 
                 // 처음 등록된 캐릭터는 레이드 횟수를 세팅
                 raidClearCountUtil.initRaidClearCount(targetCharacter);
+                targetCharacter.setImage(neopleApiClient.getCharacterImage(targetCharacter.getServerId(), targetCharacter.getCharacterId()));
 
+            // 검색된 캐릭터가 2개 이상이면 예외 반환
             } else if (searchResult.size() > 1) {
                 Map<String, String> characters = searchResult.stream().collect(Collectors.toMap(
                         CharacterDTO::getServerId,
@@ -73,14 +77,20 @@ public class CharacterService {
         } else {
             LocalDateTime start = targetCharacter.getModifiedAt();
             raidClearCountUtil.refreshRaidClearCount(targetCharacter, start);
+            String imageCode = neopleApiClient.getCharacterImage(targetCharacter.getServerId(), targetCharacter.getCharacterId());
+            targetCharacter.setImage(imageCode);
         }
 
         characterRepository.saveCharacter(targetCharacter);
 
-        return CharacterRaidClearCountResponseDTO
-                .builder()
-                .nabelClearCount(targetCharacter.getNabelClearCount())
+        return CharacterCardDTO.builder()
+                .characterName(targetCharacter.getCharacterName())
+                .serverName(ServerName.getDescription(targetCharacter.getServerId()))
+                .AdventureName(targetCharacter.getAdventureName())
+                .fame(targetCharacter.getFame())
                 .inaeClearCount(targetCharacter.getInaeClearCount())
+                .nabelClearCount(targetCharacter.getNabelClearCount())
+                .image(targetCharacter.getImage())
                 .build();
     }
 }

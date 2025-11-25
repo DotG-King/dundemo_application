@@ -2,13 +2,9 @@ package dev.example.dundemo.web.controller;
 
 import dev.example.dundemo.service.CharacterService;
 import dev.example.dundemo.utils.response.ResponseService;
-import dev.example.dundemo.utils.model.ListResult;
 import dev.example.dundemo.utils.model.SingleResult;
 import dev.example.dundemo.web.dto.Character.*;
-import dev.example.dundemo.web.dto.timeline.TimeLineResponseDTO;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RequestMapping("/api/v1/character")
 @RestController
@@ -23,8 +19,8 @@ public class CharacterController {
     }
 
     @PostMapping("/count")
-    public SingleResult<CharacterRaidClearCountResponseDTO> getCharacterRaidClearCount(@RequestBody CharacterRaidClearCountRequestDTO characterRaidClearCountRequestDTO) {
-        CharacterRaidClearCountResponseDTO result = characterService.getCharacterRaidClearCount(characterRaidClearCountRequestDTO);
+    public SingleResult<CharacterCardDTO> getCharacterRaidClearCount(@RequestBody CharacterRaidClearCountRequestDTO characterRaidClearCountRequestDTO) {
+        CharacterCardDTO result = characterService.getCharacterRaidClearCount(characterRaidClearCountRequestDTO);
         return responseService.getSingleResult(result);
     }
 }

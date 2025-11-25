@@ -12,6 +12,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.ExchangeFilterFunction;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
+
+import java.util.Base64;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
@@ -21,13 +23,16 @@ import java.util.Optional;
 public class NeopleApiClient {
 
     public static final String BASE_URL = "https://api.neople.co.kr";
+    public static final String IMAGE_BASE_URL = "https://img-api.neople.co.kr";
 
     private final WebClient webClient;
+    private final WebClient imageWebClient;
     private final ApiKeyProvider apiKeyProvider;
 
     public NeopleApiClient(WebClient.Builder webClientBuilder,
                            ApiKeyProvider apiKeyProvider) {
-        this.webClient = webClientBuilder.baseUrl(BASE_URL).filter(logRequest()).build();
+        this.webClient = webClientBuilder.clone().baseUrl(BASE_URL).filter(logRequest()).build();
+        this.imageWebClient = webClientBuilder.clone().baseUrl(IMAGE_BASE_URL).filter(logRequest()).build();
         this.apiKeyProvider = apiKeyProvider;
     }
 
@@ -62,6 +67,18 @@ public class NeopleApiClient {
                 .retrieve()
                 .bodyToMono(CharacterInfoDTO.class)
                 .block();
+    }
+
+    public String getCharacterImage(String serverId, String characterId) {
+        byte[] imageBytes = imageWebClient.get()
+                .uri(uriBuilder -> uriBuilder
+                        .path(NeopleApiUrl.CHARACTER_IMAGE.uri)
+                        .queryParam("zoom", 1)
+                        .build(serverId, characterId))
+                .retrieve()
+                .bodyToMono(byte[].class)
+                .block();
+        return Base64.getEncoder().encodeToString(imageBytes);
     }
 
     public TimeLineResponseDTO getCharacterTimeLine(Map<String, Object> requestMap) {

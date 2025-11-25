@@ -28,7 +28,6 @@ public class RaidClearCountUtil {
     }
 
     public void initRaidClearCount(Character targetCharacter) {
-
         LocalDateTime end = LocalDateTime.now();
         LocalDateTime start = end.minusDays(90);
         initCharacterRaidClearCount(targetCharacter, start, end);
@@ -36,8 +35,6 @@ public class RaidClearCountUtil {
     }
 
     public void refreshRaidClearCount(Character targetCharacter, LocalDateTime lastModifiedTime) {
-
-        // 갱신할때 너무 자주 갱신되지 않도록 하는 코드 필요할듯
         LocalDateTime end = LocalDateTime.now();
         refreshCharacterRaidClearCount(targetCharacter, lastModifiedTime, end);
         refreshCharacterAdvanceRaidClearCount(targetCharacter, lastModifiedTime, end);
@@ -183,7 +180,7 @@ public class RaidClearCountUtil {
                         .characterId(targetCharacter.getCharacterId())
                         .start(start)
                         .end(end)
-                        .code(TimeLineCode.RAID.getCode())
+                        .code(TimeLineCode.RAID_ADVANCE_PARTY.getCode())
                         .next(next)
                         .build();
 

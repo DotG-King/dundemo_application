@@ -2,33 +2,36 @@ package dev.example.dundemo.domain;
 
 import lombok.Builder;
 import lombok.Getter;
+import lombok.Setter;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document(collection = "character")
 @Getter
+@Setter
 public class Character extends BaseTimeEntity {
     @Id
-    String id;
+    private String id;
 
-    String serverId;        // 서버 아이디
-    String characterId;     // 캐릭터 고유 코드
-    String characterName;   // 캐릭터 명
-    int level;              // 레벨
-    String jobId;           // 캐릭터 직업 고유 코드
-    String jobGrowId;       // 캐릭터 전직 직업 고유 코드
-    String jobName;         // 캐릭터 직업 명칭
-    String jobGrowName;     // 캐릭터 전직 직업 명칭
-    int fame;               // 캐릭터 모험가 명성
+    private String serverId;        // 서버 아이디
+    private String characterId;     // 캐릭터 고유 코드
+    private String characterName;   // 캐릭터 명
+    private int level;              // 레벨
+    private String jobId;           // 캐릭터 직업 고유 코드
+    private String jobGrowId;       // 캐릭터 전직 직업 고유 코드
+    private String jobName;         // 캐릭터 직업 명칭
+    private String jobGrowName;     // 캐릭터 전직 직업 명칭
+    private int fame;               // 캐릭터 모험가 명성
 
     @Indexed
-    String adventureName;   // 캐릭터 모험단 명
-    String guildId;         // 캐릭터 길드 고유 코드
-    String guildName;       // 캐릭터 길드 명
+    private String adventureName;   // 캐릭터 모험단 명
+    private String guildId;         // 캐릭터 길드 고유 코드
+    private String guildName;       // 캐릭터 길드 명
 
-    int nabelClearCount;
-    int inaeClearCount;
+    private int nabelClearCount;    // 나벨 레이드 클리어 횟수
+    private int inaeClearCount;     // 이내 레이드 클리어 횟수
+    private String image;           // 캐릭터 이미지 base64 코드
 
     @Builder
     public Character(String serverId, String characterId, String characterName, int level, String jobId, String jobGrowId, String jobName, String jobGrowName, int fame, String adventureName, String guildId, String guildName) {
@@ -46,6 +49,7 @@ public class Character extends BaseTimeEntity {
         this.guildName = guildName;
         this.nabelClearCount = 0;
         this.inaeClearCount = 0;
+        this.image = null;
     }
 
     public int increaseNabelClearCount() {
