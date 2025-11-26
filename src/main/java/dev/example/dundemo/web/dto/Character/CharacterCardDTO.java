@@ -10,7 +10,7 @@ import lombok.Setter;
 public class CharacterCardDTO {
     private String characterName;
     private String serverName;
-    private String AdventureName;
+    private String adventureName;
     private int fame;
     private int inaeClearCount;
     private int nabelClearCount;

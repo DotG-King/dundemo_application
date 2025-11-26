@@ -86,7 +86,7 @@ public class CharacterService {
         return CharacterCardDTO.builder()
                 .characterName(targetCharacter.getCharacterName())
                 .serverName(ServerName.getDescription(targetCharacter.getServerId()))
-                .AdventureName(targetCharacter.getAdventureName())
+                .adventureName(targetCharacter.getAdventureName())
                 .fame(targetCharacter.getFame())
                 .inaeClearCount(targetCharacter.getInaeClearCount())
                 .nabelClearCount(targetCharacter.getNabelClearCount())
