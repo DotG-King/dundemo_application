@@ -12,4 +12,8 @@ public class RefreshTimeCheckUtil {
     public boolean canRefresh(LocalDateTime lastModifiedTime) {
         return LocalDateTime.now().minusSeconds(30).isAfter(lastModifiedTime);
     }
+
+    public boolean canAdventureRefresh(LocalDateTime lastModifiedTime) {
+        return LocalDateTime.now().minusMinutes(3).isAfter(lastModifiedTime);
+    }
 }

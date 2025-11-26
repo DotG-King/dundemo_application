@@ -24,4 +24,8 @@ public class CharacterRepository {
         return characterIds.stream().map(characterDataRepository::findCharacterByCharacterId).toList();
     }
 
+    public List<Character> findCharactersByAdventureName(String adventureName) {
+        return characterDataRepository.findCharactersByAdventureName(adventureName);
+    }
+
 }

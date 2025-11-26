@@ -9,6 +9,7 @@ public enum ErrorCode {
     CHARACTER_NOT_FOUND(1001, "닉네임으로 캐릭터를 찾지 못했습니다."),
     MANY_CHARACTER_FOUND(1002, "다수의 캐릭터가 검색되었습니다."),
     ILLEGAL_SERVER_CODE(1003, "올바르지 않은 서버 코드입니다."),
+    REFRESH_COOLDOWN(1004, "모험단 새로고침은 3분마다 가능합니다"),
     INTERNAL_SERVER_ERROR(200000, "서버에러 입니다.");
 
     private final int code;

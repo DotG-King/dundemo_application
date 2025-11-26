@@ -93,4 +93,10 @@ public class CharacterService {
                 .image(targetCharacter.getImage())
                 .build();
     }
+
+    public List<Character> refreshCharacters(String adventureName) {
+        List<Character> targetCharacters = characterRepository.findCharactersByAdventureName(adventureName);
+        targetCharacters.forEach(character -> raidClearCountUtil.refreshRaidClearCount(character, LocalDateTime.now()));
+        return targetCharacters;
+    }
 }

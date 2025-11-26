@@ -27,4 +27,10 @@ public class AdventureController {
         AdventureRaidClearCountResponseDTO result = adventureService.getAdventureRaidClearCount(adventureRaidClearCountRequestDTO);
         return responseService.getSingleResult(result);
     }
+
+    @PostMapping("/refresh")
+    public SingleResult<AdventureRaidClearCountResponseDTO> refreshAdventureRaidClearCount(@RequestBody AdventureRaidClearCountRequestDTO adventureRaidClearCountRequestDTO) {
+        AdventureRaidClearCountResponseDTO result = adventureService.refreshAdventureRaidClearCount(adventureRaidClearCountRequestDTO);
+        return responseService.getSingleResult(result);
+    }
 }

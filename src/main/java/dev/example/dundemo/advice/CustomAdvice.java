@@ -3,6 +3,7 @@ package dev.example.dundemo.advice;
 import dev.example.dundemo.advice.exception.CharacterNotFoundException;
 import dev.example.dundemo.advice.exception.IllegalServerCodeException;
 import dev.example.dundemo.advice.exception.ManyCharacterFoundException;
+import dev.example.dundemo.advice.exception.RefreshCooldownException;
 import dev.example.dundemo.enums.exception.ErrorCode;
 import dev.example.dundemo.utils.LoggingUtil;
 import dev.example.dundemo.utils.model.CommonResult;
@@ -42,5 +43,13 @@ public class CustomAdvice {
         LoggingUtil.loggingWarn();
         return responseService.getFailResult(
                 ErrorCode.ILLEGAL_SERVER_CODE.getCode(), ErrorCode.ILLEGAL_SERVER_CODE.getDescription());
+    }
+
+    @ExceptionHandler(RefreshCooldownException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    protected CommonResult refreshCooldownException(HttpServletRequest request, RefreshCooldownException ex) {
+        LoggingUtil.loggingWarn();
+        return responseService.getFailResult(
+                ErrorCode.REFRESH_COOLDOWN.getCode(), ErrorCode.REFRESH_COOLDOWN.getDescription());
     }
 }
