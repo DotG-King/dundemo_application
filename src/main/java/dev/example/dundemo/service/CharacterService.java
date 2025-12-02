@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -31,7 +32,7 @@ public class CharacterService {
     private final CharacterRepository characterRepository;
     private final AdventureRepository adventureRepository;
 
-    public CharacterCardDTO getCharacterRaidClearCount(CharacterRaidClearCountRequestDTO requestDTO) {
+    public CharacterRaidClearCountResponseDTO getCharacterRaidClearCount(CharacterRaidClearCountRequestDTO requestDTO) {
 
         // 처음에 도메인에서 캐릭터 검색후 있으면 그 항목의 마지막 수정시간 이후로 검색
         Character targetCharacter = characterRepository.findCharacterByServerAndName(requestDTO.getServerName(), requestDTO.getCharacterName());
@@ -83,7 +84,9 @@ public class CharacterService {
 
         characterRepository.saveCharacter(targetCharacter);
 
-        return CharacterCardDTO.builder()
+        List<CharacterCardDTO> resultList = new ArrayList<>();
+
+        resultList.add(CharacterCardDTO.builder()
                 .characterName(targetCharacter.getCharacterName())
                 .serverName(ServerName.getDescription(targetCharacter.getServerId()))
                 .adventureName(targetCharacter.getAdventureName())
@@ -91,6 +94,10 @@ public class CharacterService {
                 .inaeClearCount(targetCharacter.getInaeClearCount())
                 .nabelClearCount(targetCharacter.getNabelClearCount())
                 .image(targetCharacter.getImage())
+                .build());
+
+        return CharacterRaidClearCountResponseDTO.builder()
+                .characterList(resultList)
                 .build();
     }
 

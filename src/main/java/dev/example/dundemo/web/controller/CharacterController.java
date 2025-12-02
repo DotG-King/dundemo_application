@@ -19,8 +19,8 @@ public class CharacterController {
     }
 
     @PostMapping("/count")
-    public SingleResult<CharacterCardDTO> getCharacterRaidClearCount(@RequestBody CharacterRaidClearCountRequestDTO characterRaidClearCountRequestDTO) {
-        CharacterCardDTO result = characterService.getCharacterRaidClearCount(characterRaidClearCountRequestDTO);
+    public SingleResult<CharacterRaidClearCountResponseDTO> getCharacterRaidClearCount(@RequestBody CharacterRaidClearCountRequestDTO characterRaidClearCountRequestDTO) {
+        CharacterRaidClearCountResponseDTO result = characterService.getCharacterRaidClearCount(characterRaidClearCountRequestDTO);
         return responseService.getSingleResult(result);
     }
 }
