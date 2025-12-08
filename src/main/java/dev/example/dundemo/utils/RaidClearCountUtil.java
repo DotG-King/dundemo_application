@@ -10,6 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 import java.util.Optional;
 
 @Slf4j
@@ -66,6 +67,8 @@ public class RaidClearCountUtil {
                                     targetCharacter.increaseNabelClearCount();
                                 } else if (RaidName.INAE.matches(row.getData().getRaidName(), row.getData().getModeName())){
                                     targetCharacter.increaseInaeClearCount();
+                                } else if (RaidName.DIREGIE.matches(row.getData().getRaidName(), row.getData().getModeName())){
+                                    targetCharacter.increaseDiregieClearCount();
                                 }
                             }
                         });
@@ -105,6 +108,8 @@ public class RaidClearCountUtil {
                                     targetCharacter.increaseNabelClearCount();
                                 } else if (RaidName.INAE.matches(row.getData().getRaidName(), row.getData().getModeName())){
                                     targetCharacter.increaseInaeClearCount();
+                                } else if (RaidName.DIREGIE.matches(row.getData().getRaidName(), row.getData().getModeName())){
+                                    targetCharacter.increaseDiregieClearCount();
                                 }
                             }
                         });
@@ -144,6 +149,8 @@ public class RaidClearCountUtil {
                     break;
                 }
 
+                refreshCharacterInfo(targetCharacter, raidTimeLine);
+
                 raidTimeLine.getTimeline().getRows().forEach(
                         row -> {
                             if (row.getData() != null) {
@@ -151,6 +158,8 @@ public class RaidClearCountUtil {
                                     targetCharacter.increaseNabelClearCount();
                                 } else if (RaidName.INAE.matches(row.getData().getRaidName(), row.getData().getModeName())){
                                     targetCharacter.increaseInaeClearCount();
+                                } else if (RaidName.DIREGIE.matches(row.getData().getRaidName(), row.getData().getModeName())){
+                                    targetCharacter.increaseDiregieClearCount();
                                 }
                             }
                         });
@@ -190,6 +199,8 @@ public class RaidClearCountUtil {
                     break;
                 }
 
+                refreshCharacterInfo(targetCharacter, raidTimeLine);
+
                 raidTimeLine.getTimeline().getRows().forEach(
                         row -> {
                             if (row.getData() != null) {
@@ -197,6 +208,8 @@ public class RaidClearCountUtil {
                                     targetCharacter.increaseNabelClearCount();
                                 } else if (RaidName.INAE.matches(row.getData().getRaidName(), row.getData().getModeName())){
                                     targetCharacter.increaseInaeClearCount();
+                                } else if (RaidName.DIREGIE.matches(row.getData().getRaidName(), row.getData().getModeName())){
+                                    targetCharacter.increaseDiregieClearCount();
                                 }
                             }
                         });
@@ -208,5 +221,17 @@ public class RaidClearCountUtil {
             start = end.minusDays(90);
 
         } while (!start.isBefore(lastModifiedTime));
+    }
+
+    private void refreshCharacterInfo(Character targetCharacter, TimeLineResponseDTO raidTimeLine) {
+        // 캐릭터 정보에서 바뀔만한게 바뀌면 갱신 해줘야 함, 근데 뭐가 갱신될 수 있지?
+        // characterName, fame, guildName, image, jobGrowName, level
+        if (!Objects.equals(targetCharacter.getCharacterName(), raidTimeLine.getCharacterName()) ||
+                !Objects.equals(targetCharacter.getFame(), raidTimeLine.getFame()) ||
+                !Objects.equals(targetCharacter.getGuildName(), raidTimeLine.getGuildName()) ||
+                !Objects.equals(targetCharacter.getJobGrowName(), raidTimeLine.getJobGrowName()) ||
+                !Objects.equals(targetCharacter.getLevel(), raidTimeLine.getLevel())) {
+            targetCharacter.refreshInfo(raidTimeLine);
+        }
     }
 }

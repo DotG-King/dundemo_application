@@ -14,5 +14,6 @@ public class CharacterCardDTO {
     private int fame;
     private int inaeClearCount;
     private int nabelClearCount;
+    private int diregieClearCount;
     private String image;
 }

@@ -1,5 +1,6 @@
 package dev.example.dundemo.domain;
 
+import dev.example.dundemo.web.dto.timeline.TimeLineResponseDTO;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
@@ -31,6 +32,7 @@ public class Character extends BaseTimeEntity {
 
     private int nabelClearCount;    // 나벨 레이드 클리어 횟수
     private int inaeClearCount;     // 이내 레이드 클리어 횟수
+    private int diregieClearCount;  // 디레지에 레이드 클리어 횟수
     private String image;           // 캐릭터 이미지 base64 코드
 
     @Builder
@@ -49,6 +51,7 @@ public class Character extends BaseTimeEntity {
         this.guildName = guildName;
         this.nabelClearCount = 0;
         this.inaeClearCount = 0;
+        this.diregieClearCount = 0;
         this.image = null;
     }
 
@@ -57,16 +60,28 @@ public class Character extends BaseTimeEntity {
         return this.nabelClearCount;
     }
 
-    public void setNabelClearCount(int nabelClearCount) {
-        this.nabelClearCount = nabelClearCount;
-    }
-
     public int increaseInaeClearCount() {
         this.inaeClearCount++;
         return this.inaeClearCount;
     }
 
-    public void setInaeClearCount(int inaeClearCount) {
-        this.inaeClearCount = inaeClearCount;
+    public int increaseDiregieClearCount() {
+        this.diregieClearCount++;
+        return this.diregieClearCount;
+    }
+
+    public void refreshInfo(TimeLineResponseDTO timeLineResponseDTO) {
+        this.serverId = timeLineResponseDTO.getServerId();
+        this.characterId = timeLineResponseDTO.getCharacterId();
+        this.characterName = timeLineResponseDTO.getCharacterName();
+        this.level = timeLineResponseDTO.getLevel();
+        this.jobId = timeLineResponseDTO.getJobId();
+        this.jobGrowId = timeLineResponseDTO.getJobGrowId();
+        this.jobName = timeLineResponseDTO.getJobName();
+        this.jobGrowName = timeLineResponseDTO.getJobGrowName();
+        this.fame = timeLineResponseDTO.getFame();
+        this.adventureName = timeLineResponseDTO.getAdventureName();
+        this.guildId = timeLineResponseDTO.getGuildId();
+        this.guildName = timeLineResponseDTO.getGuildName();
     }
 }

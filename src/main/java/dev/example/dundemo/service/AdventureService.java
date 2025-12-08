@@ -43,6 +43,7 @@ public class AdventureService {
                                 .fame(character.getFame())
                                 .inaeClearCount(character.getInaeClearCount())
                                 .nabelClearCount(character.getNabelClearCount())
+                                .diregieClearCount(character.getDiregieClearCount())
                                 .image(character.getImage()).build()
                         ).collect(Collectors.toList()))
                 .build();
@@ -70,6 +71,7 @@ public class AdventureService {
                                 .fame(character.getFame())
                                 .inaeClearCount(character.getInaeClearCount())
                                 .nabelClearCount(character.getNabelClearCount())
+                                .diregieClearCount(character.getDiregieClearCount())
                                 .image(character.getImage()).build())
                         .collect(Collectors.toList()))
                 .build();

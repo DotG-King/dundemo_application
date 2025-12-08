@@ -11,7 +11,9 @@ public enum RaidName {
 
     NABDL_MATCHING("만들어진 신 나벨", "무의지의 장벽"),
     NABEL("만들어진 신 나벨", "무지의 악"),
-    INAE("이내 황혼전", null);
+    INAE("이내 황혼전", null),
+    DIREGIE_MATCHING("디레지에 레이드", "디레지에 : 서막"),
+    DIREGIE("디레지에 레이드", "디레지에 : 종막");
 
     private final String raidName;
     private final String modeName;

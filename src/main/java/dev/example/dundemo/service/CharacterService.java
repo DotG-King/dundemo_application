@@ -93,6 +93,7 @@ public class CharacterService {
                 .fame(targetCharacter.getFame())
                 .inaeClearCount(targetCharacter.getInaeClearCount())
                 .nabelClearCount(targetCharacter.getNabelClearCount())
+                .diregieClearCount(targetCharacter.getDiregieClearCount())
                 .image(targetCharacter.getImage())
                 .build());
 
