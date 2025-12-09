@@ -54,9 +54,11 @@ public class CharacterService {
                     Adventure newAdventure = targetCharacterInfoDTO.toAdventureEntity();
                     newAdventure.addCharacter(newCharacter.getCharacterId());
                     adventureRepository.saveAdventure(newAdventure);
-                // 해당 캐릭터가 속한 모험단이 있으면 캐릭터만 추가
+                // 해당 캐릭터가 속한 모험단이 있고 해당 모험단에 캐릭터가 속해있지 않으면 캐릭터만 추가
                 } else {
-                    targetAdventure.addCharacter(newCharacter.getCharacterId());
+                    if (targetAdventure.getCharacters().stream().noneMatch(newCharacter.getCharacterId()::equals)) {
+                        targetAdventure.addCharacter(newCharacter.getCharacterId());
+                    }
                     adventureRepository.saveAdventure(targetAdventure);
                 }
 
