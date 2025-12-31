@@ -21,3 +21,10 @@ spring:
       on-profile: dev
   application:
     name: dundemo
+  data:
+    mongodb:
+      uri: {MONGO_URI}
+      authentication-database: admin
+      auto-index-creation: true
+cors:
+  allowed-origins: "*"

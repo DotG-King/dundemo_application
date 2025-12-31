@@ -35,6 +35,7 @@ public class AdventureService {
                 .adventureName(targetAdventure.getAdventureName())
                 .nabelClearCount(characters.stream().mapToInt(Character::getNabelClearCount).sum())
                 .inaeClearCount(characters.stream().mapToInt(Character::getInaeClearCount).sum())
+                .diregieClearCount(characters.stream().mapToInt(Character::getDiregieClearCount).sum())
                 .characterList(characters.stream().map(
                         character -> CharacterCardDTO.builder()
                                 .characterName(character.getCharacterName())
@@ -63,6 +64,7 @@ public class AdventureService {
                 .adventureName(targetAdventure.getAdventureName())
                 .nabelClearCount(characters.stream().mapToInt(Character::getNabelClearCount).sum())
                 .inaeClearCount(characters.stream().mapToInt(Character::getInaeClearCount).sum())
+                .diregieClearCount(characters.stream().mapToInt(Character::getDiregieClearCount).sum())
                 .characterList(characters.stream().map(
                         character -> CharacterCardDTO.builder()
                                 .characterName(character.getCharacterName())

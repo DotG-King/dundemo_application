@@ -14,5 +14,6 @@ public class AdventureRaidClearCountResponseDTO {
     private String adventureName;
     private int nabelClearCount;
     private int inaeClearCount;
+    private int diregieClearCount;
     private List<CharacterCardDTO> characterList;
 }
