@@ -1,4 +1,4 @@
-cdpipeline {
+pipeline {
     agent any
 
     // Jenkins 내 설정한 환경 변수와 파이프라인에서 사용할 환경 변수
