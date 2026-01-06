@@ -1,4 +1,4 @@
-pipeline {
+cdpipeline {
     agent any
 
     // Jenkins 내 설정한 환경 변수와 파이프라인에서 사용할 환경 변수
@@ -6,6 +6,8 @@ pipeline {
         MAIN_BRANCH = 'main'
         DEVELOP_BRANCH = 'dev'
         AWS_REGION = 'ap-northeast-2'
+        MAJOR_VERSION_NUMBER = 0 // 메이저 버전
+        MINOR_VERSION_NUMBER = 1 // 마이너 버전
         // S3_BUCKET은 Setup 단계에서 동적으로 설정됩니다.
     }
 
@@ -105,7 +107,7 @@ pipeline {
 
             steps {
                 echo "Uploading JAR to S3 bucket: ${env.S3_BUCKET}"
-                sh 'aws s3 cp build/libs/*.jar s3://${S3_BUCKET}/'
+                sh 'aws s3 cp build/libs/dundemo-0.0.1-SNAPSHOT.jar s3://${S3_BUCKET}/dundemo-v${MAJOR_VERSION_NUMBER}.${MINOR_VERSION_NUMBER}.${BUILD_NUMBER}.jar'
             }
 
             post {
