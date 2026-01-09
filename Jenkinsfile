@@ -135,27 +135,73 @@ pipeline {
                 }
             }
         }
-    }
 
-    post {
-        success {
-            withCredentials([string(credentialsId: 'Discord_Jenkins_Bot', variable: 'DISCORD')]) {
-                discordSend title: "BUILD SUCCESS", 
-                description: "빌드를 성공했습니다.", 
-                footer: "'${env.JOB_NAME}'", 
-                link: env.BUILD_URL,
-                result: currentBuild.currentResult, 
-                webhookURL: '$DISCORD'
+        stage('[PROD] Update Version Number') {
+            when() {
+                expression { env.GIT_BRANCH == MAIN_BRANCH }
+            }
+
+            steps {
+                echo "Update prod Version Number in SSM Parameter Store"
+                sh """aws ssm put-parameter --name "/app/prod/version_number" --value "${MAJOR_VERSION_NUMBER}.${MINOR_VERSION_NUMBER}.${BUILD_NUMBER}" --overwrite"""
             }
         }
-        failure {
-            withCredentials([string(credentialsId: 'Discord_Jenkins_Bot', variable: 'DISCORD')]) {
-                discordSend title: "BUILD FAIL", 
-                description: "빌드를 실패했습니다.", 
-                footer: "'${env.JOB_NAME}'", 
-                link: env.BUILD_URL,
-                result: currentBuild.currentResult, 
-                webhookURL: '$DISCORD'
+
+        stage('[DEV] Update Version Number') {
+            when() {
+                expression { env.GIT_BRANCH == DEVELOP_BRANCH }
+            }
+
+            steps {
+                echo "Update dev Version Number in SSM Parameter Store"
+                sh """aws ssm put-parameter --name "/app/dev/version_number" --value "${MAJOR_VERSION_NUMBER}.${MINOR_VERSION_NUMBER}.${BUILD_NUMBER}" --overwrite"""
+            }
+        }
+
+        stage('[PROD] Refresh instance with ASG') {
+            when() {
+                expression { env.GIT_BRANCH == MAIN_BRANCH }
+            }
+
+            steps {
+                echo "Refresh prod instance with ASG"
+                sh """aws autoscaling start-instance-refresh --auto-scaling-group-name "dundemo_app_asg_dev_20260108100322086700000004" """
+            }
+        }
+
+        stage('[DEV] Refresh instance with ASG') {
+            when() {
+                expression { env.GIT_BRANCH == DEVELOP_BRANCH }
+            }
+
+            steps {
+                echo "Refresh dev instance with ASG"
+                sh """ws autoscaling start-instance-refresh --auto-scaling-group-name "dundemo_app_asg_dev_20260108100322086700000004" """
+            }
+        }
+
+        stage('End with Discord Message') {
+            post {
+                success {
+                    withCredentials([string(credentialsId: 'Discord_Jenkins_Bot', variable: 'DISCORD')]) {
+                        discordSend title: "BUILD SUCCESS",
+                        description: "빌드를 성공했습니다.",
+                        footer: "'${env.JOB_NAME}'",
+                        link: env.BUILD_URL,
+                        result: currentBuild.currentResult,
+                        webhookURL: '$DISCORD'
+                    }
+                }
+                failure {
+                    withCredentials([string(credentialsId: 'Discord_Jenkins_Bot', variable: 'DISCORD')]) {
+                        discordSend title: "BUILD FAIL",
+                        description: "빌드를 실패했습니다.",
+                        footer: "'${env.JOB_NAME}'",
+                        link: env.BUILD_URL,
+                        result: currentBuild.currentResult,
+                        webhookURL: '$DISCORD'
+                    }
+                }
             }
         }
     }
