@@ -23,7 +23,23 @@ spring:
     name: dundemo
   data:
     mongodb:
-      uri: {MONGO_URI}
+      uri: ${MONGO_URI}
+      authentication-database: admin
+      auto-index-creation: true
+cors:
+  allowed-origins: "*"
+
+---
+
+spring:
+  config:
+    activate:
+      on-profile: prod
+  application:
+    name: dundemo
+  data:
+    mongodb:
+      uri: ${MONGO_URI}
       authentication-database: admin
       auto-index-creation: true
 cors:
