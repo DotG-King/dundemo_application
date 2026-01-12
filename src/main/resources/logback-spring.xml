@@ -11,4 +11,20 @@
             <appender-ref ref="CONSOLE"/>
         </root>
     </springProfile>
+
+    <springProfile name="dev">
+        <property resource="application.yml"/>
+        <include resource="org/springframework/boot/logging/logback/console-appender.xml"/>
+        <root level="debug">
+            <appender-ref ref="CONSOLE"/>
+        </root>
+    </springProfile>
+
+    <springProfile name="prod">
+        <property resource="application.yml"/>
+        <include resource="org/springframework/boot/logging/logback/console-appender.xml"/>
+        <root level="info">
+            <appender-ref ref="CONSOLE"/>
+        </root>
+    </springProfile>
 </configuration>
