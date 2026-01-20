@@ -28,6 +28,11 @@ spring:
       auto-index-creation: true
 cors:
   allowed-origins: "*"
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health
 
 ---
 
@@ -44,3 +49,8 @@ spring:
       auto-index-creation: true
 cors:
   allowed-origins: "*"
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health
