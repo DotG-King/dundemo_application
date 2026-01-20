@@ -171,7 +171,7 @@ pipeline {
                         returnStdout: true,
                         script: """
                             aws autoscaling describe-auto-scaling-groups \
-                                --query "AutoScalingGroups[?Tags[?Key=='Name' && Value=='dundemo_app_asg_${env.TF_WORKSPACE}']].AutoScalingGroupName | [0]" \
+                                --query "AutoScalingGroups[?Tags[?Key=='Environment' && Value=='${env.TF_WORKSPACE}']].AutoScalingGroupName | [0]" \
                                 --output text
                         """
                     ).trim()
@@ -205,73 +205,5 @@ pipeline {
                 }
             }
         }
-
-//         stage('[PROD] Refresh instance with ASG') {
-//             when() {
-//                 expression { env.GIT_BRANCH == MAIN_BRANCH }
-//             }
-//
-//             steps {
-//                 echo "Refresh prod instance with ASG"
-//                 sh """aws autoscaling start-instance-refresh --auto-scaling-group-name "dundemo_app_asg_dev_20260108100322086700000004" """
-//             }
-//
-//             post {
-//                 success {
-//                     withCredentials([string(credentialsId: 'Discord_Jenkins_Bot', variable: 'DISCORD')]) {
-//                         discordSend title: "BUILD SUCCESS",
-//                         description: "빌드를 성공했습니다.",
-//                         footer: "'${env.JOB_NAME}'",
-//                         link: env.BUILD_URL,
-//                         result: currentBuild.currentResult,
-//                         webhookURL: '$DISCORD'
-//                     }
-//                 }
-//                 failure {
-//                     withCredentials([string(credentialsId: 'Discord_Jenkins_Bot', variable: 'DISCORD')]) {
-//                         discordSend title: "BUILD FAIL",
-//                         description: "빌드를 실패했습니다.",
-//                         footer: "'${env.JOB_NAME}'",
-//                         link: env.BUILD_URL,
-//                         result: currentBuild.currentResult,
-//                         webhookURL: '$DISCORD'
-//                     }
-//                 }
-//             }
-//         }
-//
-//         stage('[DEV] Refresh instance with ASG') {
-//             when() {
-//                 expression { env.GIT_BRANCH == DEVELOP_BRANCH }
-//             }
-//
-//             steps {
-//                 echo "Refresh dev instance with ASG"
-//                 sh """aws autoscaling start-instance-refresh --auto-scaling-group-name "dundemo_app_asg_dev_20260108100322086700000004" """
-//             }
-//
-//             post {
-//                 success {
-//                     withCredentials([string(credentialsId: 'Discord_Jenkins_Bot', variable: 'DISCORD')]) {
-//                         discordSend title: "BUILD SUCCESS",
-//                         description: "빌드를 성공했습니다.",
-//                         footer: "'${env.JOB_NAME}'",
-//                         link: env.BUILD_URL,
-//                         result: currentBuild.currentResult,
-//                         webhookURL: '$DISCORD'
-//                     }
-//                 }
-//                 failure {
-//                     withCredentials([string(credentialsId: 'Discord_Jenkins_Bot', variable: 'DISCORD')]) {
-//                         discordSend title: "BUILD FAIL",
-//                         description: "빌드를 실패했습니다.",
-//                         footer: "'${env.JOB_NAME}'",
-//                         link: env.BUILD_URL,
-//                         result: currentBuild.currentResult,
-//                         webhookURL: '$DISCORD'
-//                     }
-//                 }
-//             }
-//         }
     }
 }
