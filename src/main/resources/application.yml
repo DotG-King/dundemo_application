@@ -12,6 +12,11 @@ spring:
       database: test
 cors:
   allowed-origins: "http://localhost:5173"
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health
 
 ---
 
@@ -27,7 +32,7 @@ spring:
       authentication-database: admin
       auto-index-creation: true
 cors:
-  allowed-origins: "*"
+  allowed-origins: "https://dev.dundemo.in"
 management:
   endpoints:
     web:
@@ -48,7 +53,7 @@ spring:
       authentication-database: admin
       auto-index-creation: true
 cors:
-  allowed-origins: "*"
+  allowed-origins: "https://prod.dundemo.in"
 management:
   endpoints:
     web:
