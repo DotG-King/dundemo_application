@@ -102,6 +102,7 @@ pipeline {
                                 --resource-type-filters s3 \
                                 --tag-filters Key=Name,Values=dundemo_${env.TF_WORKSPACE}_app_artifacts_bucket \
                                 --tag-filters Key=Environment,Values=${env.TF_WORKSPACE} \
+                                --tag-filters Key=Type,Values=back \
                                 --query 'ResourceTagMappingList[0].ResourceARN' \
                                 --output text
                         """
