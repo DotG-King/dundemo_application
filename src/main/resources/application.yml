@@ -32,7 +32,7 @@ spring:
       authentication-database: admin
       auto-index-creation: true
 cors:
-  allowed-origins: "https://dev.dundemo.in"
+  allowed-origins: "https://www.dev.dundemo.in"
 management:
   endpoints:
     web:
@@ -53,7 +53,7 @@ spring:
       authentication-database: admin
       auto-index-creation: true
 cors:
-  allowed-origins: "https://prod.dundemo.in"
+  allowed-origins: "https://www.prod.dundemo.in"
 management:
   endpoints:
     web:
