@@ -1,0 +1,61 @@
+spring:
+  config:
+    activate:
+      on-profile: local
+  application:
+    name: dundemo
+  data:
+    mongodb:
+      uri: mongodb://localhost:27017
+      authentication-database: admin
+      auto-index-creation: true
+      database: test
+cors:
+  allowed-origins: "http://localhost:5173"
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health
+
+---
+
+spring:
+  config:
+    activate:
+      on-profile: dev
+  application:
+    name: dundemo
+  data:
+    mongodb:
+      uri: ${MONGO_URI}
+      authentication-database: admin
+      auto-index-creation: true
+cors:
+  allowed-origins: "https://www.dev.dundemo.in"
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health
+
+---
+
+spring:
+  config:
+    activate:
+      on-profile: prod
+  application:
+    name: dundemo
+  data:
+    mongodb:
+      uri: ${MONGO_URI}
+      authentication-database: admin
+      auto-index-creation: true
+cors:
+  allowed-origins: "https://www.prod.dundemo.in"
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health

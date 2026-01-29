@@ -1,0 +1,8 @@
+spring:
+  profiles:
+    active: test
+
+API_KEY: "dummyAPIKey"
+
+cors:
+  allowed-origins: "*"
